@@ -221,7 +221,8 @@ def getKodiVideoDBPath():
         "14": 90,   # Helix
         "15": 93,   # Isengard
         "16": 99,   # Jarvis
-        "17": 107   # Krypton
+        "17": 107,  # Krypton
+        "18": 107   # L*****
     }
 
     dbPath = tryDecode(xbmc.translatePath(
@@ -256,7 +257,8 @@ def getKodiMusicDBPath():
         "14": 48,   # Helix
         "15": 52,   # Isengard
         "16": 56,   # Jarvis
-        "17": 60    # Krypton
+        "17": 60,   # Krypton
+        "18": 60    # L*****
     }
 
     dbPath = tryDecode(xbmc.translatePath(

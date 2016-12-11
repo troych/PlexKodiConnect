@@ -249,8 +249,8 @@ class VideoNodes(object):
             if mediatype == "photos":
                 windowpath = "ActivateWindow(Pictures,%s,return)" % path
             else:
-                if KODIVERSION >= 17:
-                    # Krypton
+                if KODIVERSION >= 18:
+                    # Krypton or L*****
                     windowpath = "ActivateWindow(Videos,%s,return)" % path
                 else:
                     windowpath = "ActivateWindow(Video,%s,return)" % path
@@ -371,8 +371,8 @@ class VideoNodes(object):
             "special://profile/library/video/"))
         nodeXML = "%splex_%s.xml" % (nodepath, cleantagname)
         path = "library://video/plex_%s.xml" % cleantagname
-        if KODIVERSION >= 17:
-            # Krypton
+        if KODIVERSION >= 18:
+            # Krypton or L*****
             windowpath = "ActivateWindow(Videos,%s,return)" % path
         else:
             windowpath = "ActivateWindow(Video,%s,return)" % path

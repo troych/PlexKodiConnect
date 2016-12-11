@@ -983,8 +983,8 @@ class TVShows(Items):
             log.info("UPDATE episode itemid: %s" % (itemid))
 
             # Update the movie entry
-            if KODIVERSION in (16, 17):
-                # Kodi Jarvis, Krypton
+            if KODIVERSION in (16, 17, 18):
+                # Kodi Jarvis, Krypton, L*****
                 query = ' '.join((
                     "UPDATE episode",
                     "SET c00 = ?, c01 = ?, c03 = ?, c04 = ?, c05 = ?, c09 = ?,"
@@ -1016,8 +1016,8 @@ class TVShows(Items):
         else:
             log.info("ADD episode itemid: %s - Title: %s" % (itemid, title))
             # Create the episode entry
-            if KODIVERSION in (16, 17):
-                # Kodi Jarvis, Krypton
+            if KODIVERSION in (16, 17, 18):
+                # Kodi Jarvis, Krypton, L*****
                 query = (
                     '''
                     INSERT INTO episode(
@@ -1316,7 +1316,7 @@ class Music(Items):
                 itemid, artistid, artisttype, "artist", checksum=checksum)
 
         # Process the artist
-        if KODIVERSION in (16, 17):
+        if KODIVERSION in (16, 17, 18):
             query = ' '.join((
 
                 "UPDATE artist",
@@ -1409,7 +1409,20 @@ class Music(Items):
                 itemid, albumid, "MusicAlbum", "album", checksum=checksum)
 
         # Process the album info
-        if KODIVERSION == 17:
+        if KODIVERSION == 18:
+            # Kodi L*****
+            query = ' '.join((
+
+                "UPDATE album",
+                "SET strArtists = ?, iYear = ?, strGenres = ?, strReview = ?, strImage = ?,",
+                    "iUserrating = ?, lastScraped = ?, strReleaseType = ?, "
+                    "strLabel = ? ",
+                "WHERE idAlbum = ?"
+            ))
+            kodicursor.execute(query, (artistname, year, genre, bio, thumb,
+                                       rating, lastScraped, "album", studio,
+                                       albumid))
+        elif KODIVERSION == 17:
             # Kodi Krypton
             query = ' '.join((
 
@@ -1765,8 +1778,8 @@ class Music(Items):
                 artist_edb = emby_db.getItem_byId(artist_eid)
                 artistid = artist_edb[0]
             finally:
-                if KODIVERSION >= 17:
-                    # Kodi Krypton
+                if KODIVERSION >= 18:
+                    # Kodi Krypton or L*****
                     query = (
                         '''
                         INSERT OR REPLACE INTO song_artist(idArtist, idSong, idRole, iOrder, strArtist)
@@ -1840,8 +1853,8 @@ class Music(Items):
             result = kodicursor.fetchone()
             if result and result[0] != album_artists:
                 # Field is empty
-                if KODIVERSION in (16, 17):
-                    # Kodi Jarvis, Krypton
+                if KODIVERSION in (16, 17, 18):
+                    # Kodi Jarvis, Krypton, L*****
                     query = "UPDATE album SET strArtists = ? WHERE idAlbum = ?"
                     kodicursor.execute(query, (album_artists, albumid))
                 elif KODIVERSION == 15:
